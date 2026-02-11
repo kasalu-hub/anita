@@ -21,10 +21,10 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 40px;
+    padding: 30px;
     opacity: 0;
-    transform: translateY(50px);
-    transition: 1.5s ease;
+    transform: translateY(40px);
+    transition: 1.2s ease, transform 1.2s ease;
 }
 
 .section.visible {
@@ -33,33 +33,36 @@ body {
 }
 
 h1 {
-    font-size: 48px;
-    letter-spacing: 6px;
+    font-size: 36px;
+    letter-spacing: 4px;
 }
 
 p {
-    font-size: 22px;
-    line-height: 1.8;
-    max-width: 750px;
+    font-size: 18px;
+    line-height: 1.9;
+    max-width: 90%;
     color: #ddd;
 }
 
 img {
-    width: 300px;
+    width: 90%;
+    max-width: 300px;
     border-radius: 20px;
-    margin: 20px;
-    box-shadow: 0 0 60px rgba(255,255,255,0.1);
+    margin: 20px 0;
+    box-shadow: 0 0 40px rgba(255,255,255,0.1);
     opacity: 0;
-    transition: 2s ease;
+    transform: scale(0.95);
+    transition: 1.5s ease, transform 1.5s ease;
 }
 
 img.visible {
     opacity: 1;
+    transform: scale(1);
 }
 
 button {
-    padding: 15px 35px;
-    font-size: 20px;
+    padding: 12px 28px;
+    font-size: 18px;
     background: transparent;
     border: 1px solid white;
     color: white;
@@ -74,29 +77,36 @@ button:hover {
 }
 
 #finalText {
-    font-size: 28px;
+    font-size: 24px;
     color: #ff99cc;
-    margin-top: 30px;
+    margin-top: 25px;
     min-height: 60px;
 }
 
-#celebration {
-    display: none;
-    font-size: 32px;
+#reaction {
+    font-size: 20px;
     color: #ff4da6;
-    animation: fadeIn 2s forwards;
+    margin-top: 20px;
+    opacity: 0;
+    transition: 1s ease;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
 }
 </style>
 </head>
 
 <body>
 
-<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01a.mp3"></audio>
+<!-- Background music -->
+<audio id="bgMusic" src="bgmusic.mp3" autoplay loop muted></audio>
 
 <div class="section">
     <h1 id="name"></h1>
@@ -106,10 +116,8 @@ button:hover {
     <div>
         <img src="anita1.jpg" class="fadeImage">
         <p>
-            I tried to ignore it.<br>
-            Pretend it was nothing.<br><br>
-            But some people don’t enter your life quietly.<br>
-            They shift it.
+            Anita. Some names are soft, almost like a whisper. But yours… it lingers. 
+            In my mind. In my heart. In moments I never expected to matter, suddenly, you do.
         </p>
     </div>
 </div>
@@ -118,11 +126,9 @@ button:hover {
     <div>
         <img src="anita2.jpg" class="fadeImage">
         <p>
-            You are not loud.<br>
-            Yet somehow… you are everywhere.<br><br>
-            In my thoughts.<br>
-            In my plans.<br>
-            In the spaces I didn’t know were empty.
+            I tried to ignore it. Pretend it was nothing. But the way you laugh, 
+            the way your eyes brighten even without noticing me… It shifts something inside me. 
+            And I realized — I can’t pretend anymore.
         </p>
     </div>
 </div>
@@ -131,53 +137,64 @@ button:hover {
     <div>
         <img src="us.jpg" class="fadeImage">
         <p>
-            I don’t want to call this a crush.<br>
-            I don’t want to call it a moment.<br><br>
-            I want to call it intentional.
+            You don’t need to try to be extraordinary. You already are. 
+            In quiet moments, in silence, in every little glance, you’ve become the thought 
+            I don’t fight anymore. The thought I want to linger on. 
+            And every moment I spend with you, even from afar, only proves I’m right to feel this.
         </p>
-
-        <div id="finalText"></div>
-
-        <button onclick="typeQuestion()">Continue</button>
-        <div id="answerButtons" style="display:none;">
-            <button onclick="yes()">Yes</button>
-            <button onclick="no()">No</button>
-        </div>
-
-        <div id="celebration">
-            You just made this dangerously unforgettable.
-        </div>
     </div>
 </div>
 
+<div class="section">
+    <div>
+        <p>
+            I don’t know what the future holds. I don’t know what words will truly capture this. 
+            But I do know this — I want to take this journey with you. Step by step, heart to heart.
+        </p>
+
+        <div id="finalText"></div>
+        <button onclick="typeQuestion()">Continue</button>
+
+        <div id="answerButtons" style="display:none;">
+            <button onclick="respond('yes')">Yes 💖</button>
+            <button onclick="respond('no')">No 😅</button>
+        </div>
+
+        <div id="reaction"></div>
+    </div>
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+
 <script>
+// Scroll animation with soft zoom
 const sections = document.querySelectorAll('.section');
 const images = document.querySelectorAll('.fadeImage');
-const heartbeat = document.getElementById("heartbeat");
-
-window.onload = function() {
-    typeName("Anita.");
-};
 
 window.addEventListener('scroll', () => {
     sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
+        if (rect.top < window.innerHeight - 80) {
             section.classList.add('visible');
         }
     });
 
     images.forEach(img => {
         const rect = img.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
+        if (rect.top < window.innerHeight - 80) {
             img.classList.add('visible');
         }
     });
 });
 
+// Typing her name
+window.onload = function() {
+    typeName("Anita.");
+};
+
 function typeName(text) {
     let i = 0;
-    const speed = 150;
+    const speed = 120;
     function typing() {
         if (i < text.length) {
             document.getElementById("name").innerHTML += text.charAt(i);
@@ -188,33 +205,94 @@ function typeName(text) {
     typing();
 }
 
+// Typing question + unmute music
 function typeQuestion() {
-    heartbeat.play();
     const text = "So Anita… will you be my girlfriend?";
     let i = 0;
     document.getElementById("finalText").innerHTML = "";
     document.getElementById("answerButtons").style.display = "block";
 
+    // Unmute background music on first interaction
+    const music = document.getElementById("bgMusic");
+    music.muted = false;
+    music.volume = 0.2;
+
     function typing() {
         if (i < text.length) {
             document.getElementById("finalText").innerHTML += text.charAt(i);
             i++;
-            setTimeout(typing, 80);
+            setTimeout(typing, 60);
         }
     }
     typing();
 }
 
-function yes() {
-    document.body.style.background = "#1a001a";
-    document.getElementById("celebration").style.display = "block";
+// Respond function with confetti + Google Form
+function respond(answer) {
+    const reaction = document.getElementById("reaction");
+
+    if(answer === 'yes') {
+        reaction.innerHTML = "Anita… you’ve just made this dangerously unforgettable. \
+I promise, every moment we share from now on will be real, honest, and unforgettable. \
+You will never regret choosing this journey with me. I’ll make sure of it — step by step, heart to heart.";
+        reaction.style.opacity = 1;
+        launchConfetti();
+    } else {
+        reaction.innerHTML = "I understand, and I still respect you. \
+Even if today is not the moment, I will still cherish the connection we have. \
+I wanted to be honest, and I hope one day this honesty will lead us to something beautiful.";
+        reaction.style.opacity = 1;
+    }
+
+    setTimeout(() => {
+        window.open('https://forms.gle/RX8gmuGT6YAMqxPj7', '_blank');
+    }, 2000);
 }
 
-function no() {
-    document.getElementById("finalText").innerHTML =
-    "I’d still choose you. I just needed to be honest.";
+// Confetti for mobile
+function launchConfetti() {
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+    for(let i=0; i<80; i++){
+        confetti.push({
+            x: Math.random()*canvas.width,
+            y: Math.random()*canvas.height - canvas.height,
+            r: Math.random()*6+4,
+            d: Math.random()*150+50,
+            color: `hsl(${Math.random()*360},100%,50%)`,
+            tilt: Math.random()*10-10,
+            tiltAngleIncremental: Math.random()*0.07+0.05
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        confetti.forEach((c) => {
+            ctx.beginPath();
+            ctx.lineWidth = c.r/2;
+            ctx.strokeStyle = c.color;
+            ctx.moveTo(c.x + c.tilt + c.r/4, c.y);
+            ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/4);
+            ctx.stroke();
+
+            c.tiltAngle += c.tiltAngleIncremental;
+            c.y += (Math.cos(c.d) + 3 + c.r/2)/2;
+            c.tilt = Math.sin(c.tiltAngle) * 15;
+
+            if(c.y > canvas.height){
+                c.y = -10;
+                c.x = Math.random()*canvas.width;
+            }
+        });
+        requestAnimationFrame(draw);
+    }
+    draw();
 }
 </script>
 
 </body>
-                                                     </html>
+    </html>
