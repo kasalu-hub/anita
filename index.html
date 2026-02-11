@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anita</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+    font-family: "Georgia", serif;
+    overflow-x: hidden;
+}
+
+.section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1.5s ease;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1 {
+    font-size: 48px;
+    letter-spacing: 6px;
+}
+
+p {
+    font-size: 22px;
+    line-height: 1.8;
+    max-width: 750px;
+    color: #ddd;
+}
+
+img {
+    width: 300px;
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 0 0 60px rgba(255,255,255,0.1);
+    opacity: 0;
+    transition: 2s ease;
+}
+
+img.visible {
+    opacity: 1;
+}
+
+button {
+    padding: 15px 35px;
+    font-size: 20px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    transition: 0.4s;
+    margin: 10px;
+}
+
+button:hover {
+    background: white;
+    color: black;
+}
+
+#finalText {
+    font-size: 28px;
+    color: #ff99cc;
+    margin-top: 30px;
+    min-height: 60px;
+}
+
+#celebration {
+    display: none;
+    font-size: 32px;
+    color: #ff4da6;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:
