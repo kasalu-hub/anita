@@ -89,4 +89,132 @@ button:hover {
 
 @keyframes fadeIn {
     from {opacity: 0;}
-    to {opacity:
+    to {opacity: 1;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="heartbeat" src="https://www.soundjay.com/human/heartbeat-01a.mp3"></audio>
+
+<div class="section">
+    <h1 id="name"></h1>
+</div>
+
+<div class="section">
+    <div>
+        <img src="anita1.jpg" class="fadeImage">
+        <p>
+            I tried to ignore it.<br>
+            Pretend it was nothing.<br><br>
+            But some people don’t enter your life quietly.<br>
+            They shift it.
+        </p>
+    </div>
+</div>
+
+<div class="section">
+    <div>
+        <img src="anita2.jpg" class="fadeImage">
+        <p>
+            You are not loud.<br>
+            Yet somehow… you are everywhere.<br><br>
+            In my thoughts.<br>
+            In my plans.<br>
+            In the spaces I didn’t know were empty.
+        </p>
+    </div>
+</div>
+
+<div class="section">
+    <div>
+        <img src="us.jpg" class="fadeImage">
+        <p>
+            I don’t want to call this a crush.<br>
+            I don’t want to call it a moment.<br><br>
+            I want to call it intentional.
+        </p>
+
+        <div id="finalText"></div>
+
+        <button onclick="typeQuestion()">Continue</button>
+        <div id="answerButtons" style="display:none;">
+            <button onclick="yes()">Yes</button>
+            <button onclick="no()">No</button>
+        </div>
+
+        <div id="celebration">
+            You just made this dangerously unforgettable.
+        </div>
+    </div>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const images = document.querySelectorAll('.fadeImage');
+const heartbeat = document.getElementById("heartbeat");
+
+window.onload = function() {
+    typeName("Anita.");
+};
+
+window.addEventListener('scroll', () => {
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+            section.classList.add('visible');
+        }
+    });
+
+    images.forEach(img => {
+        const rect = img.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+            img.classList.add('visible');
+        }
+    });
+});
+
+function typeName(text) {
+    let i = 0;
+    const speed = 150;
+    function typing() {
+        if (i < text.length) {
+            document.getElementById("name").innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+
+function typeQuestion() {
+    heartbeat.play();
+    const text = "So Anita… will you be my girlfriend?";
+    let i = 0;
+    document.getElementById("finalText").innerHTML = "";
+    document.getElementById("answerButtons").style.display = "block";
+
+    function typing() {
+        if (i < text.length) {
+            document.getElementById("finalText").innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 80);
+        }
+    }
+    typing();
+}
+
+function yes() {
+    document.body.style.background = "#1a001a";
+    document.getElementById("celebration").style.display = "block";
+}
+
+function no() {
+    document.getElementById("finalText").innerHTML =
+    "I’d still choose you. I just needed to be honest.";
+}
+</script>
+
+</body>
+                                                     </html>
